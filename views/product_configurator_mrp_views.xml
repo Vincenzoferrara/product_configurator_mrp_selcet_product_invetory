@@ -2,7 +2,7 @@
     <record id="product_configurator_mrp_select_product_inventory_view" model="ir.ui.view">
         <field name="name">product.configurator.mrp.select.product.inventory.form</field>
         <field name="model">product.configurator.mrp</field>
-        <field name="inherit_id" ref="product_configurator_mrp.product_configurator_mrp_form_view"/>
+        <field name="inherit_id" ref="product_configurator_mrp.view_product_configurator_mrp_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="Seleziona Prodotto">
