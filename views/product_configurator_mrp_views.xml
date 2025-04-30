@@ -1,6 +1,19 @@
 <odoo>
-    <record id="product_configurator_mrp_select_product_inventory_view" model="ir.ui.view">
-        <field name="name">product.configurator.mrp.select.product.inventory.form</field>
+    <record id="mrp_production_product_selection_form_view" model="ir.ui.view">
+        <field name="name">mrp.production.product.selection.form</field>
+        <field name="model">mrp.production.product.selection</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="product_id" required="1"/>
+                    <field name="qty"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="mrp_production_form_view_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit</field>
         <field name="model">mrp.production</field>
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
@@ -14,16 +27,12 @@
         </field>
     </record>
 
-    <record id="mrp_production_product_selection_form_view" model="ir.ui.view">
-        <field name="name">mrp.production.product.selection.form</field>
-        <field name="model">mrp.production.product.selection</field>
-        <field name="arch" type="xml">
-            <form>
-                <group>
-                    <field name="product_id" required="1"/>
-                    <field name="qty"/>
-                </group>
-            </form>
-        </field>
+    <record id="action_mrp_production_product_selection" model="ir.actions.act_window">
+        <field name="name">Seleziona Prodotto</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="mrp_production_form_view_inherit"/>
     </record>
+
+    <menuitem id="menu_mrp_production_product_selection" name="Seleziona Prodotto" parent="mrp.menu_mrp_manufacturing" action="action_mrp_production_product_selection" sequence="1"/>
 </odoo>
