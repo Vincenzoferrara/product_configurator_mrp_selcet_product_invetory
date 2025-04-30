@@ -1,51 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Form view for product selection -->
-    <record id="mrp_production_product_selection_form_view" model="ir.ui.view">
-        <field name="name">mrp.production.product.selection.form</field>
-        <field name="model">mrp.production.product.selection</field>
+    <!-- Estensione view del wizard product.configurator.mrp -->
+    <record id="view_product_configurator_mrp_form_inherit" model="ir.ui.view">
+        <field name="name">product.configurator.mrp.form.inherit</field>
+        <field name="model">product.configurator.mrp</field>
+        <field name="inherit_id" ref="product_configurator_mrp.product_configurator_mrp_form_view"/>
         <field name="arch" type="xml">
-            <form>
+            <!-- Aggiungiamo una nuova pagina per la selezione del prodotto dall'inventario -->
+            <xpath expr="//form/sheet/group" position="before">
+                <div class="alert alert-info" role="alert" attrs="{'invisible': [('use_inventory_product', '=', False)]}">
+                    <p><strong>Attenzione:</strong> Se usi un prodotto dall'inventario, la configurazione non sarà applicata.</p>
+                </div>
                 <group>
-                    <field name="product_id" required="1"/>
-                    <field name="qty"/>
+                    <field name="use_inventory_product"/>
                 </group>
-                <footer>
-                    <button string="Conferma" name="action_confirm" type="object" class="btn-primary"/>
-                    <button string="Annulla" class="btn-secondary" special="cancel"/>
-                </footer>
-            </form>
+            </xpath>
+            <xpath expr="//form/sheet" position="inside">
+                <notebook attrs="{'invisible': [('use_inventory_product', '=', False)]}">
+                    <page string="Seleziona Prodotto dall'Inventario">
+                        <group>
+                            <field name="inventory_product_id" 
+                                   domain="[('type', '=', 'product')]" 
+                                   attrs="{'required': [('use_inventory_product', '=', True)]}"
+                                   options="{'no_create': True}"/>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
         </field>
     </record>
-
-    <!-- Inherit MRP Production form view -->
+    
+    <!-- Estensione view dell'ordine di produzione mrp.production -->
     <record id="mrp_production_form_view_inherit" model="ir.ui.view">
         <field name="name">mrp.production.form.inherit</field>
         <field name="model">mrp.production</field>
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//form/sheet/notebook" position="inside">
-                <page string="Seleziona Prodotto">
-                    <group>
-                        <field name="product_selection_id" context="{'default_production_id': active_id}"/>
-                    </group>
-                </page>
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="use_inventory_product" invisible="1"/>
+                <field name="inventory_product_id" 
+                       attrs="{'invisible': [('use_inventory_product', '=', False)]}"
+                       readonly="True"/>
             </xpath>
         </field>
     </record>
-
-    <!-- Action for product selection -->
-    <record id="action_mrp_production_product_selection" model="ir.actions.act_window">
-        <field name="name">Seleziona Prodotto</field>
-        <field name="res_model">mrp.production</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="mrp_production_form_view_inherit"/>
-    </record>
-
-    <!-- Menu item -->
-    <menuitem id="menu_mrp_production_product_selection" 
-              name="Seleziona Prodotto" 
-              parent="mrp.menu_mrp_manufacturing" 
-              action="action_mrp_production_product_selection" 
-              sequence="1"/>
 </odoo>
