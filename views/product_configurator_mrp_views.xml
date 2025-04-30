@@ -2,30 +2,16 @@
     <record id="product_configurator_mrp_select_product_inventory_view" model="ir.ui.view">
         <field name="name">product.configurator.mrp.select.product.inventory.form</field>
         <field name="model">product.configurator.mrp</field>
-        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="inherit_id" ref="product_configurator_mrp.product_configurator_mrp_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='custom_values']" position="after">
-                <page string="Prodotti dal Magazzino">
-                    <field name="product_inventory_ids">
-                        <tree editable="bottom">
-                            <field name="product_id" domain="[('categ_id', '=', parent.product_template_id.product_category_id.id)]"/>
-                            <field name="qty"/>
-                        </tree>
-                    </field>
+            <xpath expr="//notebook" position="inside">
+                <page string="Seleziona Prodotto">
+                    <group>
+                        <field name="product_product_ids" invisible="1"/> <!-- Campo esistente, lo nascondiamo -->
+                        <field name="product_id" required="1"/>
+                        <field name="qty"/>
+                    </group>
                 </page>
-            </xpath>
-        </field>
-    </record>
-
-    <record id="product_template_form_view_inherit" model="ir.ui.view">
-        <field name="name">product.template.form.inherit</field>
-        <field name="model">product.template</field>
-        <field name="inherit_id" ref="product.product_template_form_view"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='options']" position="after">
-                <group>
-                    <field name="product_category_id"/>
-                </group>
             </xpath>
         </field>
     </record>

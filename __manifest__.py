@@ -7,7 +7,7 @@
         products from inventory instead of variants.
     """,
     'category': 'Manufacturing',
-    'author': 'Your Name',
+    'author': 'vincenzo ferrara',
     'website': 'http://www.example.com',
     'depends': ['product_configurator_mrp', 'mrp'],
     'data': [
