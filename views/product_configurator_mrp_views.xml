@@ -2,13 +2,11 @@
     <record id="product_configurator_mrp_select_product_inventory_view" model="ir.ui.view">
         <field name="name">product.configurator.mrp.select.product.inventory.form</field>
         <field name="model">product.configurator.mrp</field>
-        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>  <!-- ID CORRETTO -->
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
-            <!-- Aggiungi i tuoi campi qui -->
             <xpath expr="//page[@name='custom_values']" position="after">
                 <page string="Prodotti dal Magazzino">
-                    <field name="product_template_id" required="1"/>
-                    <field name="product_qty_ids">
+                    <field name="product_inventory_ids">
                         <tree editable="bottom">
                             <field name="product_id" domain="[('categ_id', '=', parent.product_template_id.product_category_id.id)]"/>
                             <field name="qty"/>
