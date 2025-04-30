@@ -1,5 +1,5 @@
 {
-  'name': 'Product Configurator MRP Select Product Inventory',
+    'name': 'Product Configurator MRP Select Product Inventory',
     'version': '1.0',
     'summary': 'Allows selecting products from inventory in MRP configurator',
     'description': """
@@ -11,7 +11,7 @@
     'website': 'http://www.example.com',
     'depends': ['product_configurator_mrp', 'mrp'],
     'data': [
-        'models/models.py',  # Assicurati che il file models.py sia elencato qui
+        'models/models.py',
         'views/product_configurator_mrp_views.xml',
     ],
     'installable': True,
