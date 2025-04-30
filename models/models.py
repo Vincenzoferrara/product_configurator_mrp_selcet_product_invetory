@@ -5,7 +5,8 @@ class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
     product_id = fields.Many2one('product.product', string='Prodotto Selezionato')
-    qty = fields.Float(string='Quantità', default=1.0)
+    #qty = fields.Float(string='Quantità', default=1.0)  # Rimosso il campo persistente
+    qty_transient = fields.Float(string='Quantità', default=1.0, transient=True) # Campo transiente
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
