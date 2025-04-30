@@ -1,13 +1,12 @@
 <odoo>
     <record id="product_configurator_mrp_select_product_inventory_view" model="ir.ui.view">
         <field name="name">product.configurator.mrp.select.product.inventory.form</field>
-        <field name="model">product.configurator.mrp</field>
-        <field name="inherit_id" ref="product_configurator_mrp.view_product_configurator_mrp_form"/>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook" position="inside">
+            <xpath expr="//page[@name='custom_values']" position="after">
                 <page string="Seleziona Prodotto">
                     <group>
-                        <field name="product_product_ids" invisible="1"/> <!-- Campo esistente, lo nascondiamo -->
                         <field name="product_id" required="1"/>
                         <field name="qty"/>
                     </group>
