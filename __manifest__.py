@@ -1,13 +1,19 @@
 {
-    'name': 'MRP Configurator: On-the-fly Product Selectors',
-    'version': '18.0.1.0.0',
-    'author': 'Your Name',
+   'name': 'Product Configurator MRP Select Product Inventory',
+    'version': '1.0',
+    'summary': 'Allows selecting products from inventory in MRP configurator',
+    'description': """
+        This module extends the product_configurator_mrp module to allow selecting
+        products from inventory instead of variants.
+    """,
     'category': 'Manufacturing',
-    'summary': 'Allow adding multiple category-based product selectors directly in the Manufacturing Configurator wizard',
-    'depends': ['base', 'product_configurator_mrp'],
+    'author': 'Your Name',
+    'website': 'http://www.example.com',
+    'depends': ['product_configurator_mrp', 'mrp'],
     'data': [
-        'views/product_selector_view.xml',
+        'views/product_configurator_mrp_views.xml',
     ],
     'installable': True,
     'application': False,
+    'auto_install': False,
 }
