@@ -4,7 +4,7 @@
         <field name="model">mrp.production</field>
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='custom_values']" position="after">
+            <xpath expr="//form/sheet/notebook" position="inside">
                 <page string="Seleziona Prodotto">
                     <group>
                         <field name="product_id" required="1"/>
