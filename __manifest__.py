@@ -11,7 +11,6 @@
     'website': 'http://www.example.com',
     'depends': ['product_configurator_mrp', 'mrp'],
     'data': [
-        'models/models.py',
         'views/product_configurator_mrp_views.xml',
     ],
     'installable': True,
