@@ -22,77 +22,78 @@ class MrpProduction(models.Model):
         help="Physical products from inventory used in this manufacturing order"
     )
     
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Extends create method to handle inventory products in configuration"""
-        res = super(MrpProduction, self).create(vals)
+        productions = super(MrpProduction, self).create(vals_list)
         
-        # If the production was created from a configuration
-        if res.config_session_id:
-            # Check if there are inventory products in the session
-            session = res.config_session_id
-            
-            if session.inventory_product_ids:
-                res.inventory_products_used = True
-                res.inventory_product_ids = [(6, 0, session.inventory_product_ids.ids)]
+        for res in productions:
+            # If the production was created from a configuration
+            if res.config_session_id:
+                # Check if there are inventory products in the session
+                session = res.config_session_id
                 
-                # Get custom values that include inventory products
-                custom_vals = session.get_custom_value_id()
-                
-                if custom_vals.get('inventory_products'):
-                    # Create a temporary BOM based on the existing one
-                    if res.bom_id:
-                        # Copy the original BOM
-                        bom = res.bom_id.copy({
-                            'product_id': res.product_id.id,
-                            'code': f"{res.bom_id.code or ''}-INV-{res.id}"
-                        })
-                        
-                        # Map attributes to product categories for easier matching
-                        attr_to_categ = {}
-                        for attr_line in res.product_id.product_tmpl_id.attribute_line_ids:
-                            if attr_line.attribute_id.category_id:
-                                attr_to_categ[attr_line.attribute_id.id] = attr_line.attribute_id.category_id.id
-                        
-                        # Create a mapping of categories to inventory products
-                        categ_to_product = {}
-                        for attr_id, product_id in custom_vals['inventory_products'].items():
-                            if attr_id in attr_to_categ:
-                                categ_id = attr_to_categ[attr_id]
-                                categ_to_product[categ_id] = product_id
+                if session.inventory_product_ids:
+                    res.inventory_products_used = True
+                    res.inventory_product_ids = [(6, 0, session.inventory_product_ids.ids)]
+                    
+                    # Get custom values that include inventory products
+                    custom_vals = session.get_custom_value_id()
+                    
+                    if custom_vals.get('inventory_products'):
+                        # Create a temporary BOM based on the existing one
+                        if res.bom_id:
+                            # Copy the original BOM
+                            bom = res.bom_id.copy({
+                                'product_id': res.product_id.id,
+                                'code': f"{res.bom_id.code or ''}-INV-{res.id}"
+                            })
                             
-                        # Update BOM lines to use inventory products
-                        for bom_line in bom.bom_line_ids:
-                            component = bom_line.product_id
+                            # Map attributes to product categories for easier matching
+                            attr_to_categ = {}
+                            for attr_line in res.product_id.product_tmpl_id.attribute_line_ids:
+                                if attr_line.attribute_id.category_id:
+                                    attr_to_categ[attr_line.attribute_id.id] = attr_line.attribute_id.category_id.id
                             
-                            # Try to match by product category
-                            if component.categ_id.id in categ_to_product:
-                                inventory_product_id = categ_to_product[component.categ_id.id]
-                                inventory_product = self.env['product.product'].browse(inventory_product_id)
+                            # Create a mapping of categories to inventory products
+                            categ_to_product = {}
+                            for attr_id, product_id in custom_vals['inventory_products'].items():
+                                if attr_id in attr_to_categ:
+                                    categ_id = attr_to_categ[attr_id]
+                                    categ_to_product[categ_id] = product_id
                                 
-                                if inventory_product.exists():
-                                    bom_line.write({
-                                        'product_id': inventory_product.id,
-                                        'product_qty': 1.0  # Usually when using inventory products, quantity is 1
-                                    })
+                            # Update BOM lines to use inventory products
+                            for bom_line in bom.bom_line_ids:
+                                component = bom_line.product_id
+                                
+                                # Try to match by product category
+                                if component.categ_id.id in categ_to_product:
+                                    inventory_product_id = categ_to_product[component.categ_id.id]
+                                    inventory_product = self.env['product.product'].browse(inventory_product_id)
+                                    
+                                    if inventory_product.exists():
+                                        bom_line.write({
+                                            'product_id': inventory_product.id,
+                                            'product_qty': 1.0  # Usually when using inventory products, quantity is 1
+                                        })
+                                
+                                # Try to match by ingredient in product name
+                                else:
+                                    for attr_id, product_id in custom_vals['inventory_products'].items():
+                                        attribute = self.env['product.attribute'].browse(attr_id)
+                                        if attribute.exists() and attribute.name.lower() in component.name.lower():
+                                            inventory_product = self.env['product.product'].browse(product_id)
+                                            if inventory_product.exists():
+                                                bom_line.write({
+                                                    'product_id': inventory_product.id,
+                                                    'product_qty': 1.0
+                                                })
+                                                break
                             
-                            # Try to match by ingredient in product name
-                            else:
-                                for attr_id, product_id in custom_vals['inventory_products'].items():
-                                    attribute = self.env['product.attribute'].browse(attr_id)
-                                    if attribute.exists() and attribute.name.lower() in component.name.lower():
-                                        inventory_product = self.env['product.product'].browse(product_id)
-                                        if inventory_product.exists():
-                                            bom_line.write({
-                                                'product_id': inventory_product.id,
-                                                'product_qty': 1.0
-                                            })
-                                            break
-                        
-                        # Use the new modified BOM
-                        res.bom_id = bom.id
+                            # Use the new modified BOM
+                            res.bom_id = bom.id
         
-        return res
+        return productions
         
     def action_view_inventory_products(self):
         """Show inventory products used in this manufacturing order"""

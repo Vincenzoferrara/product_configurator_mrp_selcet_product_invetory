@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+import json
 
 
 class ProductConfigSession(models.Model):
@@ -36,7 +37,6 @@ class ProductConfigSession(models.Model):
             session = self.browse(result.get('session_id'))
             
             # Get current mapping or initialize empty dict
-            import json
             current_mapping = {}
             if session.inventory_product_mapping:
                 try:
@@ -66,8 +66,6 @@ class ProductConfigSession(models.Model):
         
         # Add inventory products to the result
         if self.inventory_product_ids and self.inventory_product_mapping:
-            import json
-            
             # These data will be used in mrp_production to create the BOM
             if 'inventory_products' not in result:
                 result['inventory_products'] = {}

@@ -6,8 +6,10 @@
         <field name="inherit_id" ref="product_configurator.product_config_session_form_view"/>
         <field name="arch" type="xml">
             <field name="custom_value_ids" position="after">
-                <field name="inventory_product_ids" widget="many2many_tags" 
-                       attrs="{'invisible': [('config_step_line_id.use_inventory_products', '=', False)]}"/>
+                <field name="config_step_line_id" invisible="1"/>
+                <field name="inventory_product_ids" widget="many2many_tags">
+                    <attribute name="invisible">context.get('config_step_line_id.use_inventory_products') != True</attribute>
+                </field>
             </field>
         </field>
     </record>

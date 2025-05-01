@@ -7,8 +7,10 @@
         <field name="arch" type="xml">
             <field name="config_step_id" position="after">
                 <field name="use_inventory_products"/>
-                <field name="inventory_product_domain" 
-                       attrs="{'invisible': [('use_inventory_products', '=', False)], 'required': [('use_inventory_products', '=', True)]}"/>
+                <field name="inventory_product_domain">
+                    <attribute name="invisible">eval: not use_inventory_products</attribute>
+                    <attribute name="required">eval: use_inventory_products</attribute>
+                </field>
             </field>
         </field>
     </record>

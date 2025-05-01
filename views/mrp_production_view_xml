@@ -5,16 +5,12 @@
         <field name="model">mrp.production</field>
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='bom_id']" position="after">
-                <field name="inventory_products_used" invisible="1"/>
-                <field name="inventory_product_ids" widget="many2many_tags" 
-                       attrs="{'invisible': [('inventory_products_used', '=', False)]}"/>
-                <button name="action_view_inventory_products" type="object" 
-                        class="oe_stat_button" icon="fa-cubes"
-                        attrs="{'invisible': [('inventory_products_used', '=', False)]}">
-                    <div class="o_field_widget o_stat_info">
-                        <span class="o_stat_text">Inventory Products</span>
-                    </div>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" name="action_view_inventory_products" type="object" 
+                        icon="fa-cubes">
+                    <field name="inventory_products_used" invisible="1"/>
+                    <field name="inventory_product_ids" widget="statinfo" string="Inventory Products" 
+                           attrs="{'invisible': [('inventory_products_used', '=', False)]}"/>
                 </button>
             </xpath>
         </field>
