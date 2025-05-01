@@ -1,13 +1,10 @@
-<odoo>
-    <record id="product_configurator_inventory_form" model="ir.ui.view">
-        <field name="name">product.configurator.inventory.form</field>
-        <field name="model">product.configurator.inventory</field>
-        <field name="inherit_id" ref="product_configurator.product_configurator_form" />
-        <field name="arch" type="xml">
-            <!-- Aggiungi un nuovo campo per la posizione dell'inventario -->
-            <xpath expr="//group[@name='static_form']" position="inside">
-                <field name="inventory_location_id" options="{'no_create': True, 'no_edit': True}" domain="[('usage', '=', 'internal')]"/>
-            </xpath>
-        </field>
-    </record>
-</odoo>
+<record id="product_configurator_inventory_form" model="ir.ui.view">
+    <field name="name">product.configurator.inventory.form</field>
+    <field name="model">product.configurator.inventory</field>
+    <field name="inherit_id" ref="product_configurator.product_configurator_form" />
+    <field name="arch" type="xml">
+        <!-- Aggiungi un nuovo campo per la posizione dell'inventario -->
+        <xpath expr="//group[@name='static_form']" position="inside">
+            <field name="inventory_location_id" options="{'no_create': True, 'no_edit': True}" domain="[('usage', '=', 'internal')]"/>
+        </xpath>
+    </field>
