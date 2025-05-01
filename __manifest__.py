@@ -4,7 +4,7 @@
     'summary': 'Allows selecting products from inventory in MRP configurator',
     'description': """
         This module extends the product_configurator_mrp module to allow selecting
-        products from inventory instead of variants.
+        products from inventory instead of configuring a new variant.
     """,
     'category': 'Manufacturing',
     'author': 'Your Name',

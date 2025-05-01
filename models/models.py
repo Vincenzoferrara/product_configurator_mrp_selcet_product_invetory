@@ -23,12 +23,15 @@ class MrpProduction(models.Model):
         return super()._get_bom_from_product(product_id=product_id, bom_id=bom_id, kit=kit)
 
 
-class ProductConfiguratorMrp(models.TransientModel):
-    _inherit = 'product.configurator.mrp'
+class ProductConfiguratorMrpWizard(models.TransientModel):
+    """Questo è il wizard corretto utilizzato dal modulo product_configurator_mrp"""
+    _name = 'product.configurator.mrp'
+    _description = 'Product Configurator MRP with inventory product selection'
     
     # Aggiungiamo un'opzione per selezionare un prodotto esistente
     use_inventory_product = fields.Boolean(string='Usa Prodotto da Inventario', default=False)
     inventory_product_id = fields.Many2one('product.product', string='Prodotto da Inventario')
+    quantity = fields.Float(string='Quantità')
     
     @api.onchange('use_inventory_product')
     def _onchange_use_inventory_product(self):
