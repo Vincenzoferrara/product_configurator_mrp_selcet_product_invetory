@@ -6,7 +6,7 @@
     'author': 'Vincenzo Ferrara',
     'website': 'https://www.example.com',
     'license': 'AGPL-3',  # Aggiunta della licenza
-    'depends': ['product_configurator_mrp', 'product_configurator', 'stock'],
+    'depends': ['product_configurator_mrp', 'product_configurator'],
     'data': [
         'views/product_configurator_views.xml',
     ],

@@ -1,11 +1,16 @@
 <odoo>
-    <record id="view_product_configurator_wizard_inherit" model="ir.ui.view">
-        <field name="name">product.configurator.wizard.inherit</field>
-        <field name="model">product.configurator.wizard</field>
-        <field name="inherit_id" ref="product_configurator_mrp.view_product_configurator_wizard_form"/>
+    <record id="product_configurator_mrp_form" model="ir.ui.view">
+        <field name="name">product.configurator.mrp.form</field>
+        <field name="model">product.configurator</field>
+        <field name="inherit_id" ref="product_configurator.product_configurator_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='product_id']" position="after">
-                <field name="qty_available" string="Quantity Available" readonly="1"/>
+            <!-- Aggiungi un nuovo campo per la posizione dell'inventario -->
+            <xpath expr="//group[@name='static_form']" position="inside">
+                <field name="inventory_location_id" options="{'no_create': True, 'no_edit': True}" domain="[('usage', '=', 'internal')]" />
+            </xpath>
+            <!-- Modifica l'etichetta di un campo esistente (opzionale) -->
+            <xpath expr="//field[@name='product_tmpl_id']" position="attributes">
+                <attribute name="string">Modello Prodotto (MRP)</attribute>
             </xpath>
         </field>
     </record>
