@@ -9,7 +9,7 @@
     'category': 'Manufacturing',
     'author': 'Your Name',
     'website': 'http://www.example.com',
-    'depends': ['product_configurator_mrp', 'mrp'],
+    'depends': ['base', 'product_configurator_mrp', 'mrp'],
     'data': [
         'views/product_configurator_mrp_views.xml',
     ],
