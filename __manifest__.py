@@ -1,17 +1,17 @@
 {
     'name': 'Product Configurator MRP Select Product Inventory',
     'version': '1.0',
-    'summary': 'Allows selecting products from inventory in MRP configurator',
+    'summary': 'Adds inventory selection to product configurator MRP',
     'description': """
-        This module extends the product_configurator_mrp module to allow selecting
-        products from inventory instead of configuring a new variant.
+        This module adds the ability to select products based on available inventory
+        in the product configurator MRP.
     """,
-    'category': 'Manufacturing',
-    'author': 'Your Name',
-    'website': 'http://www.example.com',
-    'depends': ['base', 'product_configurator_mrp', 'mrp'],
+    'category': 'Product',
+    'author': 'Vincenzo Ferrara',
+    'website': 'https://www.example.com',
+    'depends': ['product_configurator_mrp', 'stock'],  # Dipende da product_configurator_mrp e stock
     'data': [
-        'views/product_configurator_mrp_views.xml',
+        'views/product_configurator_views.xml',  # Definisce le viste
     ],
     'installable': True,
     'application': False,
