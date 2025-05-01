@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_config_session_form_view_inventory" model="ir.ui.view">
+        <field name="name">product.config.session.form.inventory</field>
+        <field name="model">product.config.session</field>
+        <field name="inherit_id" ref="product_configurator.product_config_session_form_view"/>
+        <field name="arch" type="xml">
+            <field name="custom_value_ids" position="after">
+                <field name="inventory_product_ids" widget="many2many_tags" 
+                       attrs="{'invisible': [('config_step_line_id.use_inventory_products', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>

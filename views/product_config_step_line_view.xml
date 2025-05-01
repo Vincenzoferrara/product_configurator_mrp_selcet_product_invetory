@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_config_step_line_form_view_inventory" model="ir.ui.view">
+        <field name="name">product.config.step.line.form.inventory</field>
+        <field name="model">product.config.step.line</field>
+        <field name="inherit_id" ref="product_configurator.product_config_step_line_form_view"/>
+        <field name="arch" type="xml">
+            <field name="config_step_id" position="after">
+                <field name="use_inventory_products"/>
+                <field name="inventory_product_domain" 
+                       attrs="{'invisible': [('use_inventory_products', '=', False)], 'required': [('use_inventory_products', '=', True)]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>

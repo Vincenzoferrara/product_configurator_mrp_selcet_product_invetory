@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ProductConfiguratorInventoryField">
+        <div class="form-group inventory-product-selection">
+            <label class="col-form-label">Prodotto fisico per <t t-esc="attributeName"/></label>
+            <select class="form-control" t-att-name="fieldName">
+                <option value="">-- Seleziona un prodotto --</option>
+                <t t-foreach="products" t-as="product">
+                    <option t-att-value="product.id"><t t-esc="product.name"/> (Disponibili: <t t-esc="product.qty_available"/>)</option>
+                </t>
+            </select>
+        </div>
+    </t>
+</templates>

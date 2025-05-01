@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_production_form_view_inventory" model="ir.ui.view">
+        <field name="name">mrp.production.form.inventory</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="product_configurator_mrp.mrp_production_form_view_config"/>
+        <field name="arch" type="xml">
+            <field name="config_session_id" position="after">
+                <field name="inventory_products_used" invisible="1"/>
+                <div class="alert alert-info" attrs="{'invisible': [('inventory_products_used', '=', False)]}">
+                    <p>This production order uses physical products from inventory in its configuration.</p>
+                </div>
+            </field>
+        </field>
+    </record>
+</odoo>
