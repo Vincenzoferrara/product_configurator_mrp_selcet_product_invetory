@@ -1,22 +1,12 @@
 <odoo>
-    <data>
-        <!-- Eredita la vista del wizard di configurazione del prodotto -->
-        <record id="view_product_configurator_wizard_inherit" model="ir.ui.view">
-            <field name="name">product.configurator.wizard.inherit</field>
-            <field name="model">product.configurator.wizard</field>
-            <field name="inherit_id" ref="product_configurator.view_product_configurator_wizard_form"/>
-            <field name="arch" type="xml">
-                <!-- Aggiunge il campo qty_available dopo il campo product_id -->
-                <xpath expr="//field[@name='product_id']" position="after">
-                    <field name="qty_available" string="Quantità Disponibile" readonly="1"/>
-                </xpath>
-                <!-- Aggiunge un pulsante per controllare la disponibilità -->
-                <!--
-                <xpath expr="//button[@name='action_add_to_cart']" position="before">
-                    <button name="action_check_availability" string="Verifica Disponibilità" type="object" class="btn btn-primary"/>
-                </xpath>
-                -->
-            </field>
-        </record>
-    </data>
+    <record id="view_product_configurator_wizard_inherit" model="ir.ui.view">
+        <field name="name">product.configurator.wizard.inherit</field>
+        <field name="model">product.configurator.wizard</field>
+        <field name="inherit_id" ref="product_configurator_mrp.view_product_configurator_wizard_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="qty_available" string="Quantity Available" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
