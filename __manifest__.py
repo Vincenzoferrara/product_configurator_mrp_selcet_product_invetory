@@ -1,6 +1,6 @@
 {
     'name': 'Product Configurator MRP Select Product Inventory',
-    'version': '18.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Product',
     'summary': 'Adds inventory selection to product configurator MRP',
     'author': 'Vincenzo Ferrara',
