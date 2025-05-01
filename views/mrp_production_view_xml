@@ -3,14 +3,20 @@
     <record id="mrp_production_form_view_inventory" model="ir.ui.view">
         <field name="name">mrp.production.form.inventory</field>
         <field name="model">mrp.production</field>
-        <field name="inherit_id" ref="product_configurator_mrp.mrp_production_form_view_config"/>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
-            <field name="config_session_id" position="after">
+            <xpath expr="//field[@name='bom_id']" position="after">
                 <field name="inventory_products_used" invisible="1"/>
-                <div class="alert alert-info" attrs="{'invisible': [('inventory_products_used', '=', False)]}">
-                    <p>This production order uses physical products from inventory in its configuration.</p>
-                </div>
-            </field>
+                <field name="inventory_product_ids" widget="many2many_tags" 
+                       attrs="{'invisible': [('inventory_products_used', '=', False)]}"/>
+                <button name="action_view_inventory_products" type="object" 
+                        class="oe_stat_button" icon="fa-cubes"
+                        attrs="{'invisible': [('inventory_products_used', '=', False)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Inventory Products</span>
+                    </div>
+                </button>
+            </xpath>
         </field>
     </record>
 </odoo>

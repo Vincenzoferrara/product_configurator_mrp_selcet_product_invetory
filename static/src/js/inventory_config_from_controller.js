@@ -10,34 +10,34 @@ odoo.define('product_configurator_mrp_inventory.FormController', function (requi
 
     FormController.include({
         /**
-         * Estende il controller del form di configurazione per supportare prodotti di inventario
+         * Extends the configuration form controller to support inventory products
          */
         _onFieldChanged: function (event) {
             var self = this;
             var result = this._super.apply(this, arguments);
 
-            // Se siamo in una fase che usa prodotti di inventario
+            // If we are in a step that uses inventory products
             var stepUseInventory = this.stepUseInventory || false;
             if (!stepUseInventory) {
                 return result;
             }
 
-            // Ottieni il valore del campo
+            // Get the field value
             var field = event.data.changes;
             var fieldName = Object.keys(field)[0];
             var value = field[fieldName];
 
-            // Se è un campo di selezione inventario
+            // If it's an inventory selection field
             if (fieldName.startsWith('inventory_product_')) {
                 var attributeId = fieldName.split('_').pop();
                 
-                // Prepara i dati per l'aggiornamento della sessione
+                // Prepare data for session update
                 var vals = {
                     'inventory_product_ids': {}
                 };
                 vals.inventory_product_ids[attributeId] = value.id;
                 
-                // Aggiorna la sessione con il prodotto di inventario selezionato
+                // Update session with selected inventory product
                 this._rpc({
                     route: '/product_configurator/save_configuration',
                     params: {
@@ -47,8 +47,8 @@ odoo.define('product_configurator_mrp_inventory.FormController', function (requi
                         'config_step_id': this.config_step_id,
                     }
                 }).then(function () {
-                    // Potrebbe essere necessario aggiornare alcuni elementi dell'interfaccia
-                    // dopo la selezione di un prodotto di inventario
+                    // We might need to update some UI elements
+                    // after selecting an inventory product
                 });
             }
 
@@ -56,28 +56,28 @@ odoo.define('product_configurator_mrp_inventory.FormController', function (requi
         },
 
         /**
-         * Sovrascrive il metodo renderStepConfig per aggiungere campi di selezione prodotti da inventario
+         * Overrides renderStepConfig to add inventory product selection fields
          */
         renderStepConfig: function (data) {
             var self = this;
             var result = this._super.apply(this, arguments);
             
-            // Verifica se questa fase usa prodotti di inventario
+            // Check if this step uses inventory products
             this.stepUseInventory = data.config_step_line && data.config_step_line.use_inventory_products;
             
             if (this.stepUseInventory) {
-                // Per ogni attributo, aggiungi un campo di selezione prodotti
+                // For each attribute, add a product selection field
                 _.each(data.attribute_lines, function (attrLine) {
-                    // Crea un campo di selezione prodotti di inventario
+                    // Create an inventory product selection field
                     var fieldName = 'inventory_product_' + attrLine.attribute_id;
                     
-                    // Ottieni i prodotti disponibili per questo attributo
+                    // Get available products for this attribute
                     self._rpc({
                         model: 'product.config.step.line',
                         method: 'get_available_inventory_products',
                         args: [data.config_step_line.id, attrLine.attribute_id],
                     }).then(function (products) {
-                        // Crea e inserisci il campo di selezione dopo l'attributo corrispondente
+                        // Create and insert the selection field after the corresponding attribute
                         var $attrField = self.$('[name="' + attrLine.attribute_id + '"]');
                         if ($attrField.length) {
                             var $inventoryField = $(qweb.render('ProductConfiguratorInventoryField', {
@@ -88,7 +88,7 @@ odoo.define('product_configurator_mrp_inventory.FormController', function (requi
                             
                             $inventoryField.insertAfter($attrField.closest('.form-group'));
                             
-                            // Gestisce il change dell'elemento
+                            // Handle change event
                             $inventoryField.find('select').on('change', function(e) {
                                 var fieldObj = {};
                                 fieldObj[fieldName] = {
