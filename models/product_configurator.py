@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 
-class ProductConfigurator(models.Model):
+class ProductConfiguratorMRP(models.Model):
+    _name = 'product.configurator.mrp'
     _inherit = 'product.configurator'
 
     inventory_location_id = fields.Many2one('stock.location', string='Inventory Location', domain="[('usage', '=', 'internal')]")
